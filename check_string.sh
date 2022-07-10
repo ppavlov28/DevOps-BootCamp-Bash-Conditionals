@@ -1,21 +1,28 @@
 #!/bin/bash
 
-num_list=$1
+input_str=$1
 
-list_sep=","
+str_letters=0
+str_symbols=0
+str_numbers=0
 
-arr_sep=" "
+for (( n = 0; n < ${#input_str}; n++)) ; do
 
-num_list=(${num_list//$list_sep/$arr_sep})
+    check_char=${input_str:$n:1}
 
-for item in ${num_list[@]}
-do
-	if [[ $(( $item % 2 )) = 0 ]]
-    then
-        num_sum=$(( $num_sum + $item ))
+    if [[ $check_char =~ [a-zA-Z] ]]
+        then
+            (( str_letters = $str_letters + 1 ))
+    elif [[ $check_char =~ [\*\!\@\#\$\%\^\&\(\)\_\+] ]]
+        then
+            (( str_symbols = $str_symbols + 1 ))
+    elif [[ $check_char =~ [0-9] ]]
+        then
+            (( str_numbers = $str_numbers + 1 ))
     fi
+
 done
 
-echo $num_sum
+echo "Numbers: $str_numbers Symbols: $str_symbols Letters: $str_letters"
 
 # Place your code here
